@@ -1,7 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
+
+    const {user} = useSelector(state => state.auth)
+
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     const logos = [
@@ -26,11 +30,14 @@ const Hero = () => {
                     </div>
 
                     <div className="flex gap-2">
-                        <Link to='/app?state=register' className="hidden md:block px-6 py-2 bg-violet-600 hover:bg-violet-800 active:scale-95 transition-all rounded-full text-white hover:shadow-lg transition-all duration-300 ease-in-out">
+                        <Link to='/app?state=register' className="hidden md:block px-6 py-2 bg-violet-600 hover:bg-violet-800 active:scale-95 transition-all rounded-full text-white hover:shadow-lg transition-all duration-300 ease-in-out" hidden={user}>
                             Get started
                         </Link>
-                        <Link to='/app?state=login' className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-100 transition-all rounded-full text-slate-700 hover:text-slate-900 hover:shadow-lg transition-all duration-300 ease-in-out" >
+                        <Link to='/app?state=login' className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-100 transition-all rounded-full text-slate-700 hover:text-slate-900 hover:shadow-lg transition-all duration-300 ease-in-out" hidden={user}>
                             Login
+                        </Link>
+                        <Link to='/app' className='hidden md:block px-6 py-2 bg-violet-600 hover:bg-violet-800 active:scale-95 transition-all rounded-full text-white hover:shadow-lg transition-all' hidden={!user}>
+                            Dashboard
                         </Link>
                     </div>
 
