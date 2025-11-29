@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux'
 import api from '../configs/api.js'
 import pdfToText from 'react-pdftotext'
 import toast from 'react-hot-toast'
+import ResumePreview from '../components/ResumePreview'
+
 
 const Dashboard = () => {
 
@@ -46,22 +48,37 @@ const Dashboard = () => {
 
     }
 
-    const uploadResume = async (event) => {
-      event.preventDefault()
-      setIsLoading(true)
-      try{
-        const resumeText = await pdfToText(resume)
-        const{ data } = await api.post('/api/ai/upload-resume', {title, resumeText}, {headers: { Authorization: token}})
-        setTitle('')
-        setResume(null)
-        setShowUploadResume(false)
-        navigate(`builder/${data.resumeID}`)
-      } catch (error) {
-        toast.error(error?.response?.data?.message || error.message)
-      }
-        setIsLoading(false)
-      
-    }
+const uploadResume = async (event) => {
+  event.preventDefault()
+
+  if (!resume) {
+    toast.error('Please select a PDF file first')
+    return
+  }
+
+  setIsLoading(true)
+  try {
+    const resumeText = await pdfToText(resume)
+
+    const { data } = await api.post(
+      '/api/ai/upload-resume',
+      { title, resumeText },
+      { headers: { Authorization: token } }
+    )
+
+    setTitle('')
+    setResume(null)
+    setShowUploadResume(false)
+
+    // 👈 this must match the backend key: resumeId
+    navigate(`builder/${data.resumeId}`)
+  } catch (error) {
+    console.error('Upload resume error:', error)
+    toast.error(error?.response?.data?.message || error.message)
+  }
+  setIsLoading(false)
+}
+
 
     const editTitle =async(event)=> {
       try{
@@ -110,25 +127,75 @@ const Dashboard = () => {
 
           <hr className= 'border-slate-300 my-6 sm:w-[305px]'/>         
         
-          <div className="grid grid-cols-2 sm:flex flex-wrap gap-4">
-          {allResumes.map((resume,index)=>{
-            const baseColor = colors[index % colors.length];
-            return(
-              <button key={index} onClick={()=> navigate(`builder/${resume._id}`)} className='relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group border-dashed hover:shadow-lg shadow-[0_0_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-300 cursor-pointer' 
-                  style= {{background: `linear-gradient(80deg, ${baseColor}10, ${baseColor}30)`, borderColor: baseColor + '40'}}>
-                  <FilePenLineIcon className="size-7 group-hover:scale-105 transition-all" style={{color: baseColor}}/>
-                  <p className='text-sm group-hover:scale-105 transition-all px-2 text-center' style={{color: baseColor}}>{resume.title}</p>
-                  <p className= 'absolute bottom-1 text-[11px] text-slate-400 group-hover:text-slate-500 transition-all duration-300 px-2 text-center' style={{ color: baseColor + '90'}}>
-                    Updated on {new Date(resume.updatedAt).toLocaleDateString()}
-                  </p>
-                  <div onClick={e=> e.stopPropagation()} className='absolute top-1 right-1 group-hover:flex items-center hidden'>
-                      <TrashIcon onClick={()=>deleteResume(resume._id)} className='size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors'/>
-                      <PencilIcon onClick={()=> {setEditResumeId(resume._id); setTitle(resume.title)}} className='size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors'/>
-                  </div>
-                  </button>
-            )
-          })}
+<div className="grid grid-cols-1 sm:flex flex-wrap gap-4 mt-6">
+  {allResumes.map((resume, index) => {
+    const accentColor = resume.accent_color || colors[index % colors.length]
+
+    return (
+      <button
+        key={resume._id}
+        onClick={() => navigate(`builder/${resume._id}`)}
+        className="
+          relative
+          w-[220px] h-[310px]
+          rounded-2xl
+          bg-transparent
+          hover:shadow-xl hover:-translate-y-1
+          transition-all duration-300
+          cursor-pointer
+          group
+          flex flex-col items-center
+        "
+      >
+        {/* thumbnail frame */}
+        <div className="w-full h-full rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+          {/* scaled-down real resume */}
+          <div className="origin-top-left scale-[0.28]" style={{ width: '800px' }}>
+            <ResumePreview
+              data={resume}
+              template={resume.template || 'classic'}
+              accentColor={accentColor}
+            />
           </div>
+        </div>
+
+        {/* title + date under card */}
+        <div className="absolute -bottom-6 left-0 right-0 flex items-center justify-between px-1 text-[11px] text-slate-500">
+          <span className="font-medium truncate max-w-[70%]">
+            {resume.title || 'Untitled Resume'}
+          </span>
+          <span className="text-[10px]">
+            {new Date(resume.updatedAt).toLocaleDateString()}
+          </span>
+        </div>
+
+        {/* edit / delete icons */}
+        <div
+          onClick={e => e.stopPropagation()}
+          className="
+            absolute top-2 right-2 flex gap-1
+            opacity-0 group-hover:opacity-100
+            transition-opacity
+          "
+        >
+          <TrashIcon
+            onClick={() => deleteResume(resume._id)}
+            className="size-6 p-1.5 bg-white/90 hover:bg-white rounded-full text-slate-600 shadow-sm"
+          />
+          <PencilIcon
+            onClick={() => {
+              setEditResumeId(resume._id)
+              setTitle(resume.title)
+            }}
+            className="size-6 p-1.5 bg-white/90 hover:bg-white rounded-full text-slate-600 shadow-sm"
+          />
+        </div>
+      </button>
+    )
+  })}
+</div>
+
+
           
           {showCreateResume && (
             <div onClick={()=> setShowCreateResume(false)} 

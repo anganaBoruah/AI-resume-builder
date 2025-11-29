@@ -83,52 +83,52 @@ export const getPublicResumeById = async (req,res) => {
 //controller for updating a resume
 // GET: /api/resumes/update
 
-export const updateResume = async (req,res) => {
+export const updateResume = async (req, res) => {
   try {
     const userId = req.userId;
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    // debug logging (remove in prod)
-    console.log("updateResume body:", req.body);
-    console.log("userId:", userId, "resumeId:", resumeId);
-
     let resumeDataCopy;
-    if(typeof resumeData === 'string'){
-      resumeDataCopy = await JSON.parse(resumeData)
-    }else{
-      resumeDataCopy = structuredClone(resumeData)
+    if (typeof resumeData === "string") {
+      resumeDataCopy = JSON.parse(resumeData);
+    } else {
+      resumeDataCopy = structuredClone(resumeData);
     }
 
     if (image) {
       const imageBufferData = fs.createReadStream(image.path);
       const response = await imageKit.files.upload({
         file: imageBufferData,
-        fileName: 'resume.png',
-        folder: 'user-resumes', // fixed typo 'foler'
+        fileName: "resume.png",
+        folder: "user-resumes",
         transformation: {
-          pre: 'w-300,h-300,fo-face,z-0.75' + (removeBackground ? ',e-bgremove' : '')
-        }
+          pre:
+            "w-300,h-300,fo-face,z-0.75" +
+            (removeBackground ? ",e-bgremove" : ""),
+        },
       });
 
       resumeDataCopy.personal_info = resumeDataCopy.personal_info || {};
       resumeDataCopy.personal_info.image = response.url;
     }
 
-    // Use findOneAndUpdate with a filter (safest)
+    // ✅ IMPORTANT: partial update, don't overwrite whole doc
     const resume = await Resume.findOneAndUpdate(
-      { _id: resumeId, userId },     // filter: ensure resume belongs to user
-      resumeDataCopy,                // update
-      { new: true }                  // return updated doc
+      { _id: resumeId, userId },
+      { $set: resumeDataCopy },
+      { new: true }
     );
 
     if (!resume) {
-      return res.status(404).json({ message: 'Resume not found or not authorized' });
+      return res
+        .status(404)
+        .json({ message: "Resume not found or not authorized" });
     }
 
-    return res.status(200).json({ message: 'Saved successfully', resume });
+    return res.status(200).json({ message: "Saved successfully", resume });
   } catch (error) {
-    console.error(error);
+    console.error("updateResume error:", error);
     return res.status(400).json({ message: error.message });
   }
-}
+};

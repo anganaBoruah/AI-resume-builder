@@ -34,7 +34,7 @@ const SkillsForm = ({ data, onChange }) => {
                     </p>
                 </div>
                 <div className='flex gap-2'>
-                    <input type='text' placeholder='Enter a skill (e.g., JavaScript, Project Management)' className='flex-1 px-3 py-2 text-sm'
+                    <input type='text' placeholder='Enter a skill (e.g., JavaScript, Project Management)' className='flex-1 px-3 py-2 text-sm border border-indigo-100 rounded-lg'
                         onChange={(e)=>setNewSkill(e.target.value)} value={newSkill} onKeyDown={handleKeyPress}/>
                     <button type='button' onClick={addSkill} disabled={!newSkill.trim()} className='flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transiton-colors disabled:opacity-50 disabled:cursor-not-allowed'>
                         <Plus className='size-4'/>Add    
@@ -68,8 +68,8 @@ const SkillsForm = ({ data, onChange }) => {
                 )
             }
 
-            <div className='bg-blue-50 p-3 rounded-lg'>
-                <p className='text-sm text-blue-800'>
+            <div className='bg-blue-50 p-2 rounded-lg'>
+                <p className='text-xs text-blue-800'>
                     <strong>Tip:</strong> Add 8-12 relevent skills. Include both technical skills(programming languages,tools) and soft skills (leadership, communication).
                 </p>
             </div>
