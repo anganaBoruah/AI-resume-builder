@@ -1,7 +1,7 @@
 // server/controllers/aiController.js
 
 import Resume from "../models/Resume.js";
-import { textModel, jsonModel } from "../configs/ai.js";
+import { callGeminiText, callGeminiJson } from "../utils/geminiClient.js";
 
 /**
  * POST /api/ai/enhance-pro-sum
@@ -13,7 +13,9 @@ export const enhanceProfessionalSummary = async (req, res) => {
     const { userContent } = req.body;
 
     if (!userContent || !userContent.trim()) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ message: "Missing required fields: userContent" });
     }
 
     const prompt = `
@@ -28,13 +30,16 @@ Original summary:
 "${userContent}"
     `.trim();
 
-    const result = await textModel.generateContent(prompt);
-    const enhancedContent = result.response.text();
+    const enhancedContent = await callGeminiText(prompt);
 
-    return res.status(200).json({ enhancedContent });
+    return res.status(200).json({
+      enhancedContent: enhancedContent || userContent,
+    });
   } catch (error) {
     console.error("enhanceProfessionalSummary error:", error);
-    return res.status(400).json({ message: error.message || "AI error" });
+    return res
+      .status(500)
+      .json({ message: error.message || "AI error in enhanceProfessionalSummary" });
   }
 };
 
@@ -48,7 +53,9 @@ export const enhanceJobDescription = async (req, res) => {
     const { userContent } = req.body;
 
     if (!userContent || !userContent.trim()) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ message: "Missing required fields: userContent" });
     }
 
     const prompt = `
@@ -64,13 +71,16 @@ Original text:
 "${userContent}"
     `.trim();
 
-    const result = await textModel.generateContent(prompt);
-    const enhancedContent = result.response.text();
+    const enhancedContent = await callGeminiText(prompt);
 
-    return res.status(200).json({ enhancedContent });
+    return res.status(200).json({
+      enhancedContent: enhancedContent || userContent,
+    });
   } catch (error) {
     console.error("enhanceJobDescription error:", error);
-    return res.status(400).json({ message: error.message || "AI error" });
+    return res
+      .status(500)
+      .json({ message: error.message || "AI error in enhanceJobDescription" });
   }
 };
 
@@ -86,7 +96,9 @@ export const uploadResume = async (req, res) => {
     const userId = req.userId;
 
     if (!resumeText || !title) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ message: "Missing required fields: resumeText or title" });
     }
 
     const systemPrompt = `
@@ -138,27 +150,13 @@ Return ONLY a valid JSON object with this exact shape (no extra keys, no comment
 If a field is missing in the resume, fill it with "" or [] as appropriate.
     `.trim();
 
-    const userPrompt = `Resume:\n${resumeText}`;
-
-    const result = await jsonModel.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: systemPrompt + "\n\n" + userPrompt }],
-        },
-      ],
-      generationConfig: {
-        responseMimeType: "application/json",
-      },
-    });
-
-    const extractedData = result.response.text();
+    const rawJson = await callGeminiJson(systemPrompt, resumeText);
 
     let parsedData;
     try {
-      parsedData = JSON.parse(extractedData);
+      parsedData = JSON.parse(rawJson);
     } catch (e) {
-      console.error("JSON parse error in uploadResume:", extractedData);
+      console.error("JSON parse error in uploadResume. Raw response:", rawJson);
       return res.status(400).json({
         message: "Failed to parse AI response as JSON",
       });
@@ -174,6 +172,8 @@ If a field is missing in the resume, fill it with "" or [] as appropriate.
     return res.status(200).json({ resumeId: newResume._id });
   } catch (error) {
     console.error("uploadResume error:", error);
-    return res.status(400).json({ message: error.message || "AI error" });
+    return res
+      .status(500)
+      .json({ message: error.message || "AI error in uploadResume" });
   }
 };
