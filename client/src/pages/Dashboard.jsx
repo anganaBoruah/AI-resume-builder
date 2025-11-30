@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import api from '../configs/api.js'
 import pdfToText from 'react-pdftotext'
 import toast from 'react-hot-toast'
-import ResumePreview from '../components/ResumePreview'
+import ResumePreview from '../components/ResumePreview.jsx'
 
 
 const Dashboard = () => {
