@@ -1,14 +1,17 @@
-// configs/ai.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// pick stable, supported model names:
+const TEXT_MODEL = "gemini-1.5-flash-latest";  // or "gemini-pro"
+const JSON_MODEL = "gemini-1.5-flash-latest";  // or "gemini-1.5-pro-latest"
+
 export const textModel = genAI.getGenerativeModel({
-  model: process.env.GEMINI_TEXT_MODEL || "gemini-1.5-flash",
+  model: TEXT_MODEL,
 });
 
 export const jsonModel = genAI.getGenerativeModel({
-  model: process.env.GEMINI_JSON_MODEL || "gemini-1.5-pro",
+  model: JSON_MODEL,
 });
 
 export default textModel;
