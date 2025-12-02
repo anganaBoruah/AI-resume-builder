@@ -79,39 +79,41 @@ const ResumeBuilder = () => {
     if (resumeId) loadExistingResume()
   }, [resumeID])
 
-  const changeResumeVisibility = async () => {
-    try {
-      const newPublic = !resumeData.public
-      const updatedResumeData = { ...resumeData, public: newPublic }
+const changeResumeVisibility = async () => {
+  try {
+    const newPublic = !resumeData.public
+    const updatedResumeData = { ...resumeData, public: newPublic }
 
-      setResumeData(updatedResumeData)
+    setResumeData(updatedResumeData)
 
-      let payload = structuredClone(updatedResumeData)
-      if (typeof resumeData.personal_info.image === 'object') {
-        delete payload.personal_info.image
-      }
-
-      const formData = new FormData()
-      formData.append('resumeId', resumeId)
-      formData.append('resumeData', JSON.stringify(payload))
-      if (typeof resumeData.personal_info.image === 'object') {
-        formData.append('image', resumeData.personal_info.image)
-      }
-
-      const { data } = await api.put('/api/resumes/update', formData, {
-        headers: { Authorization: token },
-      })
-
-      setResumeData(data.resume)
-
-      toast.success(newPublic ? 'resume is now public' : 'resume is now private')
-    } catch (error) {
-      console.error('Error updating visibility:', error?.response?.data || error)
-      toast.error(
-        error?.response?.data?.message || 'Failed to update visibility'
-      )
+    let payload = structuredClone(updatedResumeData)
+    if (typeof resumeData.personal_info.image === 'object') {
+      delete payload.personal_info.image
     }
+
+    const formData = new FormData()
+    formData.append('resumeId', resumeId)
+    formData.append('resumeData', JSON.stringify(payload))
+    if (typeof resumeData.personal_info.image === 'object') {
+      formData.append('image', resumeData.personal_info.image)
+    }
+
+    const { data } = await api.put('/api/resumes/update', formData, {
+      headers: { Authorization: token },
+    })
+
+    setResumeData(data.resume)
+
+    // 🔽 custom message instead of generic “Saved successfully”
+    toast.success(newPublic ? 'resume is now public' : 'resume is now private')
+  } catch (error) {
+    console.error('Error updating visibility:', error?.response?.data || error)
+    toast.error(
+      error?.response?.data?.message || 'Failed to update visibility'
+    )
   }
+}
+
 
   const handleShare = () => {
     const frontendUrl = window.location.href.split('/app/')[0]
@@ -128,34 +130,34 @@ const ResumeBuilder = () => {
     window.print()
   }
 
-  const saveResume = async () => {
-    try {
-      let updatedResumeData = structuredClone(resumeData)
+const saveResume = async () => {
+  try {
+    let updatedResumeData = structuredClone(resumeData)
 
-      if (typeof resumeData.personal_info.image === 'object') {
-        delete updatedResumeData.personal_info.image
-      }
-
-      const formData = new FormData()
-      formData.append('resumeId', resumeId)
-      formData.append('resumeData', JSON.stringify(updatedResumeData))
-      removeBackground && formData.append('removeBackground', 'yes')
-
-      if (typeof resumeData.personal_info.image === 'object') {
-        formData.append('image', resumeData.personal_info.image)
-      }
-
-      const { data } = await api.put('/api/resumes/update', formData, {
-        headers: { Authorization: token },
-      })
-
-      setResumeData(data.resume)
-      return data.message || 'Saved successfully'
-    } catch (error) {
-      console.error('Error saving resume:', error)
-      throw error
+    if (typeof resumeData.personal_info.image === 'object') {
+      delete updatedResumeData.personal_info.image
     }
+
+    const formData = new FormData()
+    formData.append('resumeId', resumeId)
+    formData.append('resumeData', JSON.stringify(updatedResumeData))
+    removeBackground && formData.append('removeBackground', 'yes')
+
+    if (typeof resumeData.personal_info.image === 'object') {
+      formData.append('image', resumeData.personal_info.image)
+    }
+
+    const { data } = await api.put('/api/resumes/update', formData, {
+      headers: { Authorization: token },
+    })
+
+    setResumeData(data.resume)
+    return data.message || 'Saved successfully'   // 👈 return message instead
+  } catch (error) {
+    console.error('Error saving resume:', error)
+    throw error
   }
+}
 
   return (
     <div>
@@ -367,6 +369,8 @@ const ResumeBuilder = () => {
           <div className='lg:col-span-7 max-lg:mt-6'>
             <div className='relative w-full'>
               <div className='absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2'>
+                {/* Removed Global AI Enhance Button */}
+
                 {resumeData.public && (
                   <button
                     onClick={handleShare}
@@ -380,12 +384,12 @@ const ResumeBuilder = () => {
                 <button
                   onClick={changeResumeVisibility}
                   className='flex items-center gap-2 px-4 py-1.5 text-xs font-medium
-                              rounded-md
-                              bg-slate-200 
-                              text-slate-700
-                              hover:bg-slate-300
-                              transition-all active:scale-95
-                            '
+  rounded-md
+  bg-slate-200 
+  text-slate-700
+  hover:bg-slate-300
+  transition-all active:scale-95
+'
                 >
                   {resumeData.public ? (
                     <EyeIcon className='size-4' />
@@ -408,18 +412,11 @@ const ResumeBuilder = () => {
               </div>
             </div>
 
-            {/* ONLY CHANGE ↓↓↓ */}
-            <div className="w-full overflow-x-auto flex justify-center">
-              <div className="mx-auto scale-[0.8] sm:scale-100 origin-top">
-                <ResumePreview
-                  data={resumeData}
-                  template={resumeData.template}
-                  accentColor={resumeData.accent_color}
-                />
-              </div>
-            </div>
-            {/* ONLY CHANGE ↑↑↑ */}
-
+            <ResumePreview
+              data={resumeData}
+              template={resumeData.template}
+              accentColor={resumeData.accent_color}
+            />
           </div>
         </div>
       </div>

@@ -5,67 +5,70 @@ import MinimalTemplate from '../assets/templates/MinimalTemplate'
 import MinimalImageTemplate from '../assets/templates/MinimalImageTemplate'
 
 const ResumePreview = ({data, template, accentColor, classes = ""}) => {
-    const showSummary = Boolean(
+  const showSummary = Boolean(
     data &&
     data.professional_summary &&
     String(data.professional_summary).trim() !== ""
   )
-  
-  const renderTemplate = ()=>{
-    switch(template){
-        case "modern":
-            return <ModernTemplate data={data} accentColor={accentColor} />;
-        case "minimal":
-            return <MinimalTemplate data={data} accentColor={accentColor} />;
-        case "minimal-image":
-            return <MinimalImageTemplate data={data} accentColor={accentColor} />;
-    
-        default:
-            return <ClassicTemplate data={data} accentColor={accentColor} />;
-        
+
+  const renderTemplate = () => {
+    switch (template) {
+      case "modern":
+        return <ModernTemplate data={data} accentColor={accentColor} />
+      case "minimal":
+        return <MinimalTemplate data={data} accentColor={accentColor} />
+      case "minimal-image":
+        return <MinimalImageTemplate data={data} accentColor={accentColor} />
+      default:
+        return <ClassicTemplate data={data} accentColor={accentColor} />
     }
   }
-  
-  
-    return (
+
+  return (
     <div className='w-full bg-gray-100'>
-        <div id="resume-preview" className={"border border-gray-200 whitespace-normal break-all [overflow-wrap:anywhere] shadow-[0_0_40px_-10px_rgba(0,0,0,0.25)] print:shadow-none print:border-none " + classes}>
-            {renderTemplate()}
-        </div>
-        <style jsx>
-            {`
-                @page{
-                    size: letter;
-                    margin: 0;
-                }
-                @media print {
-                    html,body{
-                        width: 8.5in;
-                        height: 11in;
-                        overflow: hidden;
-                    }
-                    body * {
-                        visibility: hidden; 
-                    }
-                    #resume-preview, #resume-preview * {
-                        visibility: visible;
-                    }
-                    #resume-preview{
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        height: auto;
-                        margin: 0;
-                        padding: 0;
-                        box-shadow: none !important;
-                        border: none !important;
-
-                    }
-                }
-
-            `}
-        </style>
+      <div
+        id="resume-preview"
+        className={
+          "border border-gray-200 whitespace-normal break-words shadow-[0_0_40px_-10px_rgba(0,0,0,0.25)] print:shadow-none print:border-none " +
+          classes
+        }
+      >
+        {renderTemplate()}
+      </div>
+      <style jsx>
+        {`
+          @page {
+            size: letter;
+            margin: 0;
+          }
+          @media print {
+            html,
+            body {
+              width: 8.5in;
+              height: 11in;
+              overflow: hidden;
+            }
+            body * {
+              visibility: hidden;
+            }
+            #resume-preview,
+            #resume-preview * {
+              visibility: visible;
+            }
+            #resume-preview {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: auto;
+              margin: 0;
+              padding: 0;
+              box-shadow: none !important;
+              border: none !important;
+            }
+          }
+        `}
+      </style>
     </div>
   )
 }
