@@ -112,9 +112,9 @@ const uploadResume = async (event) => {
   return (
     <div className='min-h-screen w-full bg-gradient-to-br from-white via-violet-50 to-violet-10'>
         <div className='max-w-7xl mx-auto px-4 py-8 '>
-          <p className= 'text-2xl font-medium mb-6 bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'> Welcome, John Doe</p>
+          <p className= 'text-2xl font-light mb-6 bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'> welcome, {user?.name}</p>
           
-          <div className='flex gap-4'>
+          <div className='flex flex-col sm:flex-row gap-4'>
               <button onClick={()=> setShowCreateResume(true)} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-violet-600 hover:shadow-lg shadow-[0_0_40px_-10px_rgba(0,0,0,0.25)] transition-all duration-300 cursor-pointer'>
                 <PlusCircleIcon className= 'size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-emerald-500 to-emerald-700 text-white rounded-full' />
                 <p className= 'text-sm group-hover:text-violet-600 transition-all duration-300'>Create Resume</p>
