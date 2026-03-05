@@ -116,11 +116,11 @@ const Feature = () => (
         </ul>
       </div>
 
-      <div className="flex-1 min-w-0 w-full">
+      <div className="flex-1 min-w-0 w-full self-stretch">
         <img
           src={resumeImg}
           alt="Resume preview"
-          className="w-full rounded-2xl shadow-xl object-cover"
+          className="w-full h-full rounded-2xl shadow-xl object-cover"
         />
       </div>
     </div>

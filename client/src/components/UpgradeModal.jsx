@@ -69,7 +69,7 @@ const UpgradeModal = ({ onClose, feature = 'Resume Downloads' }) => {
       )
 
       dispatch(login({ token, user: verifyData.user }))
-      toast.success('🎉 Subscription activated!')
+      toast.success(' Subscription activated!')
       onClose()
     } catch (error) {
       if (error.message !== 'Payment cancelled') {
