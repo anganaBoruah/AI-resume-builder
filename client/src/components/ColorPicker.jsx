@@ -1,5 +1,5 @@
 import { Palette } from 'lucide-react';
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const ColorPicker = ({selectedColor, onChange}) => {
 
@@ -20,7 +20,7 @@ const ColorPicker = ({selectedColor, onChange}) => {
 
   return (
     <div className='relative'>
-        <button onClick={()=> setIsOpen(!isOpen)} className='flex items-center gap-1 text-sm text-purple-600 bg-gradient-to-br from-purple-50 to-purple-100 ring-purple-300 hover:ring transition-all px-3 py-2 rounded-lg'>
+        <button onClick={()=> setIsOpen(!isOpen)} className='flex items-center gap-1.5 text-sm text-slate-700 bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-sm transition-all px-3 py-1.5 rounded-lg'>
             <Palette size={16}/>
             <span className='max-sm:hidden'>
                 Accent

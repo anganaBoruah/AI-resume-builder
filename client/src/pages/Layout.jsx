@@ -16,12 +16,12 @@ const Layout = () => {
   return (
     <div>
 
-        {user ? (<div className= 'min-h-screen bg-gray-50'> 
+        {user ? (<div className='min-h-screen bg-slate-50'>
             <Navbar />
             <Outlet/>
-            
+
         </div>)
-        : <Login /> } 
+        : <Login /> }
     </div>
   )
 }

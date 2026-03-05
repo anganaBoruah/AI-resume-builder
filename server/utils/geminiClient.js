@@ -16,7 +16,7 @@ const GEMINI_JSON_MODEL = process.env.GEMINI_JSON_MODEL || GEMINI_TEXT_MODEL;
  */
 export async function callGeminiText(prompt) {
   const url =
-    `https://generativelanguage.googleapis.com/v1/models/${GEMINI_TEXT_MODEL}:generateContent` +
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_TEXT_MODEL}:generateContent` +
     `?key=${GEMINI_API_KEY}`;
 
   const body = {
@@ -54,7 +54,7 @@ export async function callGeminiText(prompt) {
  */
 export async function callGeminiJson(systemPrompt, resumeText) {
   const url =
-    `https://generativelanguage.googleapis.com/v1/models/${GEMINI_JSON_MODEL}:generateContent` +
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_JSON_MODEL}:generateContent` +
     `?key=${GEMINI_API_KEY}`;
 
   const combinedPrompt = `${systemPrompt.trim()}\n\nResume:\n${resumeText}`;

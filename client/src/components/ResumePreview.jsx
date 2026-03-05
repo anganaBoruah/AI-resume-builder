@@ -25,11 +25,11 @@ const ResumePreview = ({data, template, accentColor, classes = ""}) => {
   }
 
   return (
-    <div className='w-full bg-gray-100'>
+    <div className='w-full bg-white'>
       <div
         id="resume-preview"
         className={
-          "border border-gray-200 whitespace-normal break-words shadow-[0_0_40px_-10px_rgba(0,0,0,0.25)] print:shadow-none print:border-none " +
+          "whitespace-normal wrap-break-word print:shadow-none print:border-none " +
           classes
         }
       >

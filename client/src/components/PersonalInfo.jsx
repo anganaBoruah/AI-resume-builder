@@ -1,67 +1,129 @@
-import { BriefcaseBusiness, Globe, Linkedin, Mail, MapPin, Phone, User } from 'lucide-react'
-import React from 'react'
+import { BriefcaseBusiness, Globe, Mail, MapPin, Pencil, Phone, User } from 'lucide-react'
 
-const PersonalInfo = ({ data = {}, onChange, removeBackground = false, setRemoveBackground}) => {
+const LinkedInIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+    <rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+  </svg>
+)
 
-    const handleChange = (field, value)=>{
-        onChange({...data, [field]: value})
-    }
+const inputClass = 'w-full px-2 py-2 border-b border-slate-200 bg-transparent hover:bg-slate-50/70 focus:bg-violet-50/30 focus:border-violet-400 outline-none text-sm text-slate-800 transition-all placeholder:text-slate-300 rounded-t-sm'
+const labelClass = 'flex items-center gap-1.5 text-xs font-medium text-slate-600 mb-1.5'
+const fieldClass = 'transition-shadow duration-200 focus-within:shadow-[inset_2px_0_0_0_#7C3AED]'
 
-    const fields= [
-        {key: "full_name", label: "Full name", icon: User, type: "text", required: true},
-        {key: "email", label: "Email Address", icon: Mail, type: "email", required: true},
-        {key: "phone", label: "Phone Number", icon: Phone, type: "tel"},
-        {key: "location", label: "Location", icon: MapPin, type: "text"},
-        {key: "profession", label: "Profession", icon: BriefcaseBusiness, type: "text"},
-        {key: "linkedin", label: "LinkedIn Profile", icon: Linkedin, type: "url"},
-        {key: "website", label: "Personal Website", icon: Globe, type: "url"}
+const PersonalInfo = ({ data = {}, onChange, removeBackground = false, setRemoveBackground }) => {
+  const handleChange = (field, value) => {
+    onChange({ ...data, [field]: value })
+  }
 
-    ]
   return (
     <div>
-        <h3 className='text-lg font-semibold text-gray-900'>Personal Information</h3>
-        <p className='text-sm text-gray-600'>Get started with the personal information</p>
-        <div className='flex items-center gap-2'>
-            <label>
-                {data.image ?(
-                        <img src= {typeof data.image === 'string' ? data.image : URL.createObjectURL(data.image)} alt='user-image' className='w-16 h-16 rounded-full object-cover mt-5 ring ring-slate-300 hover:opacity-80'/>
-                    ):(
-                        <div className='inline-flex items-center gap-2 mt-2 text-slate-600 hover:text-slate-700 cursor-pointer'>
-                            <User className='size-10 p-2.5 border rounded-full'/>
-                                upload user image
-                            
-                        </div>  
-                    )
-                }
-                <input type='file' accept='image/jpeg, image/png, image/webp' className='hidden' onChange={(e)=>handleChange("image", e.target.files[0])}/>
-            </label>
-            {typeof data.image ==='object' && (
-                <div className='flex flex-col gap-1 pl-4 text-sm'>
-                    <p>Remove Background</p>
-                    <label className='relative inline-flex items-center cursor-pointer text-gray-900 gap-3'>
-                        <input type='checkbox' className='sr-only peer' onChange={()=>setRemoveBackground(prev => !prev)} checked = {removeBackground}/>
-                        <div className='w-9 h-5 bg-slate-300 rounded-full peer peer-checked:bg-green-600 transition-colors duration-200'></div>
-                        <span className='dot absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-4'></span>
-                    </label>
-                </div>
-            )}    
-        </div>
-        {fields.map((field)=>{
-            const Icon = field.icon;
-            return(
-                <div key={field.key} className='space-y-1 mt-5'>
-                    <label className='flex items-center gap-2 text-sm font-medium text-gray-600'>
-                        <Icon className='size-4'/>
-                        {field.label}
-                        {field.required && <span className='text-red-500'>*</span>}
-                    </label>
-                    <input type={field.type} value={data[field.key] || ""} onChange={(e)=>handleChange(field.key, e.target.value)}
-                        className='mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring focus-ring-blue-500 focus:border-blue-500 outline-none transition-colors text-sm'
-                        placeholder={`Enter your ${field.label.toLowerCase()}`} required={field.required}/>
-                </div>   
+      <h3 className="text-lg font-bold tracking-tight text-slate-900">Personal Information</h3>
+      <p className="text-xs text-slate-400 mt-1 mb-6">Basic info for your resume header.</p>
 
-            )
-        })}
+      <div className="space-y-6">
+        {/* Image upload */}
+        <div>
+          <label className="relative inline-block cursor-pointer">
+            {data.image ? (
+              <img
+                src={typeof data.image === 'string' ? data.image : URL.createObjectURL(data.image)}
+                alt="user"
+                className="w-18 h-18 rounded-2xl object-cover"
+              />
+            ) : (
+              <div className="w-18 h-18 rounded-2xl bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors">
+                <User size={28} className="text-slate-300" />
+              </div>
+            )}
+            <div className="absolute -bottom-1.5 -right-1.5 size-6 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center">
+              <Pencil size={11} className="text-slate-500" />
+            </div>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={e => handleChange('image', e.target.files[0])}
+            />
+          </label>
+        </div>
+
+        {/* Remove Background — only when a new file is selected */}
+        {typeof data.image === 'object' && (
+          <div className="flex items-start justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <p className="text-sm font-medium text-slate-800">Remove Background</p>
+              <p className="text-xs text-slate-400 mt-0.5 max-w-55">AI will automatically detect and remove your background.</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer ml-4 shrink-0 mt-0.5">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                onChange={() => setRemoveBackground(prev => !prev)}
+                checked={removeBackground}
+              />
+              <div className="relative w-9 h-5 bg-slate-300 rounded-full peer peer-checked:bg-violet-500 transition-colors duration-200">
+                <span className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-4 block" />
+              </div>
+            </label>
+          </div>
+        )}
+
+        {/* Full Name */}
+        <div className={fieldClass}>
+          <label className={labelClass}>
+            <User size={11} className="text-slate-400" />
+            Full Name <span className="text-red-400 normal-case ml-0.5">*</span>
+          </label>
+          <input type="text" value={data.full_name || ''} onChange={e => handleChange('full_name', e.target.value)}
+            placeholder="Enter your full name" className={inputClass} required />
+        </div>
+
+        {/* Email Address */}
+        <div className={fieldClass}>
+          <label className={labelClass}>
+            <Mail size={11} className="text-slate-400" />
+            Email Address <span className="text-red-400 normal-case ml-0.5">*</span>
+          </label>
+          <input type="email" value={data.email || ''} onChange={e => handleChange('email', e.target.value)}
+            placeholder="Enter your email address" className={inputClass} required />
+        </div>
+
+        {/* Phone + Location — side by side */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className={fieldClass}>
+            <label className={labelClass}><Phone size={11} className="text-slate-400" />Phone</label>
+            <input type="tel" value={data.phone || ''} onChange={e => handleChange('phone', e.target.value)}
+              placeholder="Enter phone" className={inputClass} />
+          </div>
+          <div className={fieldClass}>
+            <label className={labelClass}><MapPin size={11} className="text-slate-400" />Location</label>
+            <input type="text" value={data.location || ''} onChange={e => handleChange('location', e.target.value)}
+              placeholder="Enter location" className={inputClass} />
+          </div>
+        </div>
+
+        {/* Profession */}
+        <div className={fieldClass}>
+          <label className={labelClass}><BriefcaseBusiness size={11} className="text-slate-400" />Profession</label>
+          <input type="text" value={data.profession || ''} onChange={e => handleChange('profession', e.target.value)}
+            placeholder="Enter your profession" className={inputClass} />
+        </div>
+
+        {/* LinkedIn Profile */}
+        <div className={fieldClass}>
+          <label className={labelClass}><LinkedInIcon />LinkedIn Profile</label>
+          <input type="url" value={data.linkedin || ''} onChange={e => handleChange('linkedin', e.target.value)}
+            placeholder="Enter your linkedin profile" className={inputClass} />
+        </div>
+
+        {/* Personal Website */}
+        <div className={fieldClass}>
+          <label className={labelClass}><Globe size={11} className="text-slate-400" />Personal Website</label>
+          <input type="url" value={data.website || ''} onChange={e => handleChange('website', e.target.value)}
+            placeholder="Enter your personal website" className={inputClass} />
+        </div>
+      </div>
     </div>
   )
 }

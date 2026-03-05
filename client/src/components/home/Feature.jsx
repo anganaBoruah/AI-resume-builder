@@ -1,53 +1,148 @@
-import { Zap } from 'lucide-react';
-import React from 'react'
-import Title from './Title';
+import { Sparkles, RefreshCw, Layers, Download, Shield, Clock } from 'lucide-react'
+import resumeImg from '../../assets/resume.png'
 
-const Feature = () => {
-     const [isHover, setIsHover] = React.useState(false);
-  return (
-    <div id='features' className='flex flex-col items-center my-10 scroll-mt-12'>
-    <div className="flex items-center gap-2 text-sm text-violet-800 bg-violet-600/10  rounded-full px-4 py-1">
-            <Zap width={14}/>
-            <span>easy and efficient</span>
-        </div>        
+const howItWorks = [
+  {
+    Icon: Sparkles,
+    gradient: 'from-violet-500 to-purple-600',
+    title: 'Smart Content Suggestions',
+    desc: 'AI analyzes your experience and suggests powerful bullet points that ATS systems love.',
+  },
+  {
+    Icon: RefreshCw,
+    gradient: 'from-sky-400 to-blue-500',
+    title: 'Real-Time ATS Scoring',
+    desc: 'Live score indicator',
+    badge: { text: '92/100', color: 'bg-emerald-100 text-emerald-700' },
+  },
+  {
+    Icon: Layers,
+    gradient: 'from-violet-500 to-indigo-600',
+    title: 'Industry-Specific Templates',
+    desc: '50+ templates',
+    badge: { text: '+5 new', color: 'bg-orange-100 text-orange-600' },
+  },
+]
 
-        <Title title='Smarter Resumes. Less Effort.' description='Let AI design, write, and refine your resume — so you can focus on landing your dream job.' />
+const bentoCards = [
+  {
+    Icon: Sparkles,
+    accentFrom: 'from-violet-500',
+    accentTo: 'to-fuchsia-400',
+    iconColor: 'text-violet-600',
+    title: 'AI Writing Assistant',
+    desc: 'Smart suggestions that sound like you, not a robot.',
+  },
+  {
+    Icon: Layers,
+    accentFrom: 'from-blue-500',
+    accentTo: 'to-cyan-400',
+    iconColor: 'text-blue-600',
+    title: '50+ Professional Templates',
+    desc: 'From minimalist to bold — find your style.',
+  },
+  {
+    Icon: Download,
+    accentFrom: 'from-violet-500',
+    accentTo: 'to-pink-400',
+    iconColor: 'text-violet-600',
+    title: 'One-Click Export',
+    desc: 'PDF, DOCX, TXT — ready when you are.',
+  },
+  {
+    Icon: Shield,
+    accentFrom: 'from-rose-400',
+    accentTo: 'to-orange-400',
+    iconColor: 'text-rose-500',
+    title: 'Privacy First',
+    desc: 'Bank-grade encryption. Your data stays yours.',
+  },
+  {
+    Icon: Clock,
+    accentFrom: 'from-amber-400',
+    accentTo: 'to-yellow-300',
+    iconColor: 'text-amber-600',
+    title: 'Built in Minutes',
+    desc: 'From blank page to job-ready in under 10 minutes.',
+  },
+]
 
-            <div className="flex flex-col md:flex-row items-center justify-center xl:-mt-10">
-                <img className="max-w-3xl w-full xl:-ml-32" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png" alt="" />
-                <div className="px-4 md:px-0 space-y-4 md:space-y-6" onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-                    <div className={"flex items-center justify-center gap-6 max-w-md group cursor-pointer"}>
-                        <div className={`p-4 flex gap-4 rounded-xl border border-violet-200 shadow-sm bg-violet-80 transition-all duration-300 ease-in-out group-hover:bg-violet-50 group-hover:border-violet-200 ${!isHover ? 'border-violet-100 bg-violet-50' : ''}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-violet-600"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" /><circle cx="16.5" cy="7.5" r=".5" fill="currentColor" /></svg>
-                            <div className="space-y-2">
-                                <h3 className="text-base font-semibold text-slate-700">Real-Time Analytics</h3>
-                                <p className="text-sm text-slate-600 max-w-xs">Get instant insights into your finances with live dashboards.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-                        <div className="p-4 flex gap-4 rounded-xl border border-transparent shadow-sm bg-white transition-all duration-300 ease-in-out group-hover:bg-green-50 group-hover:border-green-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-green-600"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
-                            <div className="space-y-2">
-                                <h3 className="text-base font-semibold text-slate-700">Bank-Grade Security</h3>
-                                <p className="text-sm text-slate-600 max-w-xs">End-to-end encryption, 2FA, compliance with GDPR standards.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-                        <div className="p-4 flex gap-4 rounded-xl border border-transparent shadow-sm bg-white transition-all duration-300 ease-in-out group-hover:bg-orange-50 group-hover:border-orange-200">
-                            <svg className="size-6 stroke-orange-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></svg>
-                            <div className="space-y-2">
-                                <h3 className="text-base font-semibold text-slate-700">Customizable Reports</h3>
-                                <p className="text-sm text-slate-600 max-w-xs">Export professional, audit-ready financial reports for tax or internal review.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+const BentoCard = ({ Icon, accentFrom, accentTo, iconColor, title, desc }) => (
+  <div className="group bg-white border border-slate-100 rounded-2xl p-6 flex flex-col gap-5 cursor-default h-full
+    transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-slate-200"
+  >
+    <div className={`w-10 h-0.5 rounded-full bg-linear-to-r ${accentFrom} ${accentTo}`} />
+    <Icon size={28} className={`${iconColor} transition-transform duration-200 group-hover:scale-110`} />
+    <div>
+      <p className="font-semibold text-slate-800 text-base mb-1">{title}</p>
+      <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
     </div>
-  )
-}
+  </div>
+)
+
+const Feature = () => (
+  <section id="features" className="px-6 md:px-16 lg:px-24 xl:px-40 scroll-mt-16">
+
+    {/* How It Works */}
+    <div className="py-24 flex flex-col lg:flex-row items-center gap-16">
+      <div className="flex-1 min-w-0">
+        <div className="inline-flex items-center gap-2 text-sm font-medium text-violet-700 bg-white border border-violet-200 rounded-full px-4 py-1.5 mb-6">
+          <span>💡</span>
+          How It Works
+        </div>
+        <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-[1.15] mb-10">
+          Watch Your Resume<br />Write Itself
+        </h2>
+        <ul className="space-y-3">
+          {howItWorks.map(({ Icon, gradient, title, desc, badge }) => (
+            <li key={title} className="group flex items-start gap-4 p-4 rounded-2xl bg-white/70 shadow-[0_2px_12px_rgba(0,0,0,0.06)]
+              transition-all duration-200 hover:bg-white hover:shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 cursor-default">
+              <div className={`shrink-0 size-12 rounded-2xl bg-linear-to-br ${gradient} flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105`}>
+                <Icon size={20} className="text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-slate-800 text-base mb-0.5">{title}</p>
+                <p className="text-sm text-slate-500">
+                  {desc}
+                  {badge && (
+                    <span className={`ml-2 inline-block text-xs font-semibold px-2 py-0.5 rounded-full ${badge.color}`}>
+                      {badge.text}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="flex-1 min-w-0 w-full">
+        <img
+          src={resumeImg}
+          alt="Resume preview"
+          className="w-full rounded-2xl shadow-xl object-cover"
+        />
+      </div>
+    </div>
+
+    {/* Bento Grid */}
+    <div className="pt-16 pb-36">
+      <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 text-center mb-12">
+        Everything You Need, Nothing You Don't
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-[auto] gap-5">
+        {/* Large card — spans 2 rows on lg */}
+        <div className="lg:row-span-2">
+          <BentoCard {...bentoCards[0]} />
+        </div>
+        {bentoCards.slice(1).map(card => (
+          <BentoCard key={card.title} {...card} />
+        ))}
+      </div>
+    </div>
+
+  </section>
+)
 
 export default Feature

@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import ResumeBuilder from './pages/ResumeBuilder'
 import Preview from './pages/Preview'
 import Login from './pages/Login'
+import Pricing from './pages/Pricing'
 import { useDispatch } from 'react-redux'
 import { setLoading, login } from './app/features/authSlice'
 import api from './configs/api'
@@ -47,7 +48,7 @@ const App = () => {
           <Route path='builder/:resumeID' element={<ResumeBuilder />}/>
         </Route>
         <Route path='view/:resumeID' element={<Preview />}/>
-        
+        <Route path='pricing' element={<Pricing />}/>
       </Routes>
     </>
   )

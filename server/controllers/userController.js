@@ -4,6 +4,9 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Resume from "../models/Resume.js";
+import { OAuth2Client } from "google-auth-library";
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 const generateToken = (userId)=>{
@@ -59,8 +62,8 @@ export const loginUser = async(req, res) => {
             return res.status(400).json({message: 'Invalid user or password'})
         }
         
-        const token = generateToken(User._id)
-        User.password = undefined;
+        const token = generateToken(user._id)
+        user.password = undefined;
 
         return res.status(200).json({message: 'login successful', token, user})
     } catch (error) {
@@ -94,6 +97,32 @@ export const getUserById = async(req, res) => {
     }
 
 }
+// POST: /api/users/google
+export const googleAuth = async (req, res) => {
+    try {
+        const { credential } = req.body
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        })
+        const { sub: googleId, email, name } = ticket.getPayload()
+
+        let user = await User.findOne({ $or: [{ googleId }, { email }] })
+        if (!user) {
+            user = await User.create({ name, email, googleId })
+        } else if (!user.googleId) {
+            user.googleId = googleId
+            await user.save()
+        }
+
+        const token = generateToken(user._id)
+        user.password = undefined
+        return res.status(200).json({ message: 'Login successful', token, user })
+    } catch (error) {
+        return res.status(401).json({ message: 'Google authentication failed' })
+    }
+}
+
     //controller for getting user resumes
     // GET: /api/users/resumes
 

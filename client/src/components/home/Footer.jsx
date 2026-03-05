@@ -1,86 +1,60 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 
-const Footer = () => {
-  return (
-    <>
-    <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-            
-                * {
-                    font-family: 'Poppins', sans-serif;
-                }
-            `}</style>
-            
-            <footer className="flex flex-wrap justify-center mt-20 shadow-[0_-8px_20px_-6px_rgba(0,0,0,0.12)] lg:justify-between overflow-hidden gap-10 md:gap-20 py-16 px-6 md:px-16 lg:px-24 xl:px-32 text-[13px] text-slate-600 bg-gradient-to-r from-white via-violet-200/25 to-white mt-40">
-                <div className="flex flex-wrap items-start gap-10 md:gap-[60px] xl:gap-[140px]">
-                    <a href="#">
-                        <img src="/logo.svg" alt='logo' className='h-11 w-auto' />
-                    </a>
-                    <div>
-                        <p className="text-slate-800 font-semibold">Product</p>
-                        <ul className="mt-2 space-y-2">
-                            <li><a href="/" className="hover:text-violet-600 transition">Home</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Support</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Features</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Testimonials</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p className="text-slate-800 font-semibold">Resources</p>
-                        <ul className="mt-2 space-y-2">
-                            <li><a href="/" className="hover:text-violet-600 transition">Company</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Blogs</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Community</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Careers<span className="text-xs text-white bg-violet-600 rounded-md ml-2 px-2 py-1">We’re hiring!</span></a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">About</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p className="text-slate-800 font-semibold">Legal</p>
-                        <ul className="mt-2 space-y-2">
-                            <li><a href="/" className="hover:text-violet-600 transition">Privacy</a></li>
-                            <li><a href="/" className="hover:text-violet-600 transition">Terms</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="flex flex-col max-md:items-center max-md:text-center gap-2 items-end">
-                    <p className="max-w-60">Making every customer feel valued—no matter the size of your audience.</p>
-                    <div className="flex items-center gap-4 mt-3 text-violet-700">
-                        <a href="https://dribbble.com/prebuiltui" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-dribbble size-5 hover:text-violet-500" aria-hidden="true">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94"></path>
-                                <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32"></path>
-                                <path d="M8.56 2.75c4.37 6 6 9.42 8 17.72"></path>
-                            </svg>
-                        </a>
-                        <a href="https://www.linkedin.com/company/prebuiltui" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-linkedin size-5 hover:text-violet-500" aria-hidden="true">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect width="4" height="12" x="2" y="9"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="https://x.com/prebuiltui" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter size-5 hover:text-violet-500" aria-hidden="true">
-                                <path
-                                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
-                                </path>
-                            </svg>
-                        </a>
-                        <a href="https://www.youtube.com/@prebuiltui" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-youtube size-6 hover:text-violet-500" aria-hidden="true">
-                                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17">
-                                </path>
-                                <path d="m10 15 5-3-5-3z"></path>
-                            </svg>
-                        </a>
-                    </div>
-                    <p className="mt-3 text-center">© 2025 <a href="#">makeYourResume</a></p>
-                </div>
-            </footer>
-    </>
-  )
-}
+const LINKS = [
+  ['Product', ['Features', 'Templates', 'Pricing', 'Examples']],
+  ['Resources', ['Blog', 'Guides', 'Help Center', 'Community']],
+  ['Company', ['About', 'Careers', 'Privacy', 'Terms']],
+]
+
+const SOCIALS = [
+  {
+    label: 'LinkedIn',
+    path: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+  },
+  {
+    label: 'X (Twitter)',
+    path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.261 5.632 5.903-5.632z',
+    isFill: true,
+  },
+  {
+    label: 'YouTube',
+    path: 'M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z M10 15l5-3-5-3z',
+  },
+  {
+    label: 'GitHub',
+    path: 'M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4 M9 18c-4.51 2-5-2-7-2',
+  },
+]
+
+const Footer = () => (
+  <footer className="bg-slate-900 text-slate-400 text-sm">
+    <div className="px-6 md:px-16 lg:px-24 xl:px-40 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="col-span-2 md:col-span-1">
+        <Link to="/"><img src="/logo.svg" alt="logo" className="h-9 w-auto mb-4" /></Link>
+        <p className="text-slate-500 text-xs leading-relaxed max-w-48">Resumes that work as hard as you do.</p>
+      </div>
+      {LINKS.map(([heading, links]) => (
+        <div key={heading}>
+          <p className="text-white font-medium mb-4">{heading}</p>
+          <ul className="space-y-3">
+            {links.map(l => <li key={l}><a href="/" className="hover:text-white transition">{l}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div className="border-t border-slate-800 px-6 md:px-16 lg:px-24 xl:px-40 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <p>© 2025 makeYourResume. All rights reserved.</p>
+      <div className="flex items-center gap-4">
+        {SOCIALS.map(({ label, path, isFill }) => (
+          <a key={label} href="/" aria-label={label} className="hover:text-white transition">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill={isFill ? 'currentColor' : 'none'} stroke={isFill ? 'none' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d={path} />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </footer>
+)
 
 export default Footer
